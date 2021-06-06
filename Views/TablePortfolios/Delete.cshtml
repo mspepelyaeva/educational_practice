@@ -1,0 +1,80 @@
+﻿@model WebApplication1.TablePortfolio
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+@Styles.Render("~/Content/Site.css")
+
+<h2>Потрфель пользователя. Удаление записи</h2>
+<h4>Желаете удалить запись?</h4>
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.count)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.count)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dateBue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dateBue)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.priceBue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.priceBue)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dateSell)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dateSell)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.priceSell)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.priceSell)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TableStock.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TableStock.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TableUser.login)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TableUser.login)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Вернуться к списку", "Index")
+        </div>
+    }
+</div>

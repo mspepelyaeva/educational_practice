@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - приложение ASP.NET</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/Site.css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index"
+                        && ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")">
+                        @Html.ActionLink("Главная", "Index", "Home", null, new { @class = "navbar-brand", title = "Главная страница" })
+                    </li>
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (@WebApplication1.Models.GlobalVariables.IsAdmin)
+                        {
+                            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "TableUsers" ? "active" : "")">
+                                @Html.ActionLink("Пользователи", "Index", "TableUsers", null, new { @class = "navbar-main", title = "Справочник 'Пользователей'" })
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "TablePortfolios" ? "active" : "")">
+                                @Html.ActionLink("Портфель", "Index", "TablePortfolios", null, new { @class = "navbar-main", title = "Портфель пользователя" })
+                            </li>
+                        }
+                    }
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "TableSectors" ? "active" : "")">
+                        @Html.ActionLink("Сектора", "Index", "TableSectors", null, new { title = "Справочник 'Секторов экономики'" })
+                    </li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "TableDepartments" ? "active" : "")">
+                        @Html.ActionLink("Отрасли", "Index", "TableDepartments", null, new { title = "Справочник 'Отраслей экономики'" })
+                    </li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "TableExchanges" ? "active" : "")">
+                        @Html.ActionLink("Биржи", "Index", "TableExchanges", null, new { title = "Справочник 'Бирж'" })
+                    </li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "TableCurrencies" ? "active" : "")">
+                        @Html.ActionLink("Валюты", "Index", "TableCurrencies", null, new { title = "Справочник 'Валют'" })-
+                    </li>
+
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "TableStocks" ? "active" : "")">
+                        @Html.ActionLink("Список акций", "Index", "TableStocks", null, new { title = "Список акций" })
+                    </li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "TableDividends" ? "active" : "")">
+                        @Html.ActionLink("Дивиденды", "Index", "TableDividends", null, new { title = "Данные о дивидендах" })
+                    </li>
+
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "About"
+                        && ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")">
+                        @Html.ActionLink("О программе", "About", "Home", null, new { @class = "navbar-about", title = "О программе" })
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            @if (User.Identity.IsAuthenticated)
+            {
+                string role;
+                if (@WebApplication1.Models.GlobalVariables.IsAdmin)
+                {
+                    role = "Администратор";
+                }
+                else
+                {
+                    role = "Пользователь";
+                }
+                string name = @WebApplication1.Models.GlobalVariables.UserName;
+                string text = $"Вы вошли в систему как '{name}' ({role})";
+                <p style="float: left">@text</p>
+            }
+            <p style="float: right">&copy; @DateTime.Now.Year - Пепеляева Маргарита БИ-19-1, ASP.NET</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

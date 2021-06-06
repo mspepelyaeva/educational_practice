@@ -1,0 +1,67 @@
+﻿@model IEnumerable<WebApplication1.TableUser>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@Styles.Render("~/Content/Site.css")
+
+<h2>Справочник 'Пользователей'</h2>
+
+@if (User.Identity.IsAuthenticated && @WebApplication1.Models.GlobalVariables.IsAdmin)
+{
+    <p>
+        @Html.ActionLink("Создать новую запись", "Create")
+    </p>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.login)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.password)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nikname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.email)
+        </th>
+        <th colspan="3"></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.login)
+            </td>
+            <td>
+                ******
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nikname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.email)
+            </td>
+            <td>
+                @Html.ActionLink("Подробнее", "Details", new { id = item.Id })
+            </td>
+            <td>
+                @if (User.Identity.IsAuthenticated && @WebApplication1.Models.GlobalVariables.IsAdmin)
+                {
+                    @Html.ActionLink("Редактировать", "Edit", new { id = item.Id })
+                }
+            </td>
+            <td>
+                @if (User.Identity.IsAuthenticated && @WebApplication1.Models.GlobalVariables.IsAdmin)
+                {
+                    @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
+                }
+            </td>
+        </tr>
+    }
+
+</table>

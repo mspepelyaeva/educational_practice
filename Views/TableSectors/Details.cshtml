@@ -1,0 +1,37 @@
+﻿@model WebApplication1.TableSector
+
+@{
+    ViewBag.Title = "Details";
+}
+
+@Styles.Render("~/Content/Site.css")
+
+<h2>Список акций. Подробнее</h2>
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.note)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.note)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Вернуться к списку", "Index") |
+    @if (User.Identity.IsAuthenticated && @WebApplication1.Models.GlobalVariables.IsAdmin)
+    {
+        @Html.ActionLink("Редактировать", "Edit", new { id = Model.Id })
+    }
+</p>

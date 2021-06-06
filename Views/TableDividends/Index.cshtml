@@ -1,0 +1,69 @@
+﻿@model IEnumerable<WebApplication1.TableDividends>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@Styles.Render("~/Content/Site.css")
+
+<h2>Данные о дивидендах</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ticker)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TableStock.name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dateCutoff)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dateRegisterClosing)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.datePay)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.profitability)
+        </th>
+        <th>
+            Будущие дивиденды
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr class="@(item.dateCutoff > DateTime.Now ? "next-div" : "")">
+        <td>
+            @Html.DisplayFor(modelItem => item.ticker)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TableStock.name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dateCutoff)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dateRegisterClosing)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.datePay)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.amount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.profitability)
+        </td>
+        <td>
+            @(item.dateCutoff > DateTime.Now ? "Да" : "")
+        </td>
+    </tr>
+    }
+
+</table>

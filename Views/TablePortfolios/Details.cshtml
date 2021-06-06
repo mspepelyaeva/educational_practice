@@ -1,0 +1,84 @@
+﻿@model WebApplication1.TablePortfolio
+
+@{
+    ViewBag.Title = "Details";
+}
+
+@Styles.Render("~/Content/Site.css")
+
+<h2>Потрфель пользователя. Подробнее</h2>
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.count)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.count)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dateBue)
+        </dt>
+
+        <dd>
+            @if (@Model.dateBue != null)
+            {
+                @Model.dateBue.ToString("dd/MM/yyyy")
+            }
+            else
+            {
+                @Html.DisplayFor(Model => Model.dateBue)
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.priceBue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.priceBue)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dateSell)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dateSell)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.priceSell)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.priceSell)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TableStock.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TableStock.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TableUser.login)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TableUser.login)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Вернуться к списку", "Index") |
+    @if (User.Identity.IsAuthenticated && !@WebApplication1.Models.GlobalVariables.IsAdmin)
+    {
+        @Html.ActionLink("Редактировать", "Edit", new { id = Model.Id })
+    }
+</p>

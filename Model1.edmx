@@ -1,0 +1,562 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище PortfolioModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TableCurrency">
+          <Key>
+            <PropertyRef Name="code" />
+          </Key>
+          <Property Name="code" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TableDepartment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="note" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TableDividends">
+          <Key>
+            <PropertyRef Name="ticker" />
+            <PropertyRef Name="dateCutoff" />
+          </Key>
+          <Property Name="ticker" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="dateCutoff" Type="date" Nullable="false" />
+          <Property Name="dateRegisterClosing" Type="date" />
+          <Property Name="datePay" Type="date" />
+          <Property Name="amount" Type="float" />
+          <Property Name="profitability" Type="float" />
+        </EntityType>
+        <EntityType Name="TableExchange">
+          <Key>
+            <PropertyRef Name="code" />
+          </Key>
+          <Property Name="code" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="note" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TablePortfolio">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userId" Type="int" Nullable="false" />
+          <Property Name="ticker" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="count" Type="int" Nullable="false" />
+          <Property Name="dateBue" Type="date" Nullable="false" />
+          <Property Name="priceBue" Type="money" Nullable="false" />
+          <Property Name="dateSell" Type="date" />
+          <Property Name="priceSell" Type="money" />
+        </EntityType>
+        <EntityType Name="TableSector">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="note" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TableStock">
+          <Key>
+            <PropertyRef Name="ticker" />
+          </Key>
+          <Property Name="ticker" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="sectorId" Type="int" />
+          <Property Name="departmentId" Type="int" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="lot" Type="int" Nullable="false" />
+          <Property Name="currencyCode" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="exchangeCode" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="note" Type="nvarchar" MaxLength="50" />
+          <Property Name="pe" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="ps" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="debtEq" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="price" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="priceW52High" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="priceW52Low" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="TableUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="login" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="30" />
+          <Property Name="nikname" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <Association Name="FK__TableDivi__ticke__0DCF0841">
+          <End Role="TableStock" Type="Self.TableStock" Multiplicity="1" />
+          <End Role="TableDividends" Type="Self.TableDividends" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableStock">
+              <PropertyRef Name="ticker" />
+            </Principal>
+            <Dependent Role="TableDividends">
+              <PropertyRef Name="ticker" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TablePort__ticke__1387E197">
+          <End Role="TableStock" Type="Self.TableStock" Multiplicity="1" />
+          <End Role="TablePortfolio" Type="Self.TablePortfolio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableStock">
+              <PropertyRef Name="ticker" />
+            </Principal>
+            <Dependent Role="TablePortfolio">
+              <PropertyRef Name="ticker" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TablePort__userI__1293BD5E">
+          <End Role="TableUser" Type="Self.TableUser" Multiplicity="1" />
+          <End Role="TablePortfolio" Type="Self.TablePortfolio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TablePortfolio">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TableStoc__curre__09FE775D">
+          <End Role="TableCurrency" Type="Self.TableCurrency" Multiplicity="1" />
+          <End Role="TableStock" Type="Self.TableStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableCurrency">
+              <PropertyRef Name="code" />
+            </Principal>
+            <Dependent Role="TableStock">
+              <PropertyRef Name="currencyCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TableStoc__depar__090A5324">
+          <End Role="TableDepartment" Type="Self.TableDepartment" Multiplicity="0..1" />
+          <End Role="TableStock" Type="Self.TableStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDepartment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TableStock">
+              <PropertyRef Name="departmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TableStoc__excha__0AF29B96">
+          <End Role="TableExchange" Type="Self.TableExchange" Multiplicity="1" />
+          <End Role="TableStock" Type="Self.TableStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableExchange">
+              <PropertyRef Name="code" />
+            </Principal>
+            <Dependent Role="TableStock">
+              <PropertyRef Name="exchangeCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TableStoc__secto__08162EEB">
+          <End Role="TableSector" Type="Self.TableSector" Multiplicity="0..1" />
+          <End Role="TableStock" Type="Self.TableStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableSector">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TableStock">
+              <PropertyRef Name="sectorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище PortfolioModelContainer">
+          <EntitySet Name="TableCurrency" EntityType="Self.TableCurrency" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TableDepartment" EntityType="Self.TableDepartment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TableDividends" EntityType="Self.TableDividends" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TableExchange" EntityType="Self.TableExchange" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TablePortfolio" EntityType="Self.TablePortfolio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TableSector" EntityType="Self.TableSector" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TableStock" EntityType="Self.TableStock" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TableUser" EntityType="Self.TableUser" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__TableDivi__ticke__0DCF0841" Association="Self.FK__TableDivi__ticke__0DCF0841">
+            <End Role="TableStock" EntitySet="TableStock" />
+            <End Role="TableDividends" EntitySet="TableDividends" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TablePort__ticke__1387E197" Association="Self.FK__TablePort__ticke__1387E197">
+            <End Role="TableStock" EntitySet="TableStock" />
+            <End Role="TablePortfolio" EntitySet="TablePortfolio" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TablePort__userI__1293BD5E" Association="Self.FK__TablePort__userI__1293BD5E">
+            <End Role="TableUser" EntitySet="TableUser" />
+            <End Role="TablePortfolio" EntitySet="TablePortfolio" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TableStoc__curre__09FE775D" Association="Self.FK__TableStoc__curre__09FE775D">
+            <End Role="TableCurrency" EntitySet="TableCurrency" />
+            <End Role="TableStock" EntitySet="TableStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TableStoc__depar__090A5324" Association="Self.FK__TableStoc__depar__090A5324">
+            <End Role="TableDepartment" EntitySet="TableDepartment" />
+            <End Role="TableStock" EntitySet="TableStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TableStoc__excha__0AF29B96" Association="Self.FK__TableStoc__excha__0AF29B96">
+            <End Role="TableExchange" EntitySet="TableExchange" />
+            <End Role="TableStock" EntitySet="TableStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TableStoc__secto__08162EEB" Association="Self.FK__TableStoc__secto__08162EEB">
+            <End Role="TableSector" EntitySet="TableSector" />
+            <End Role="TableStock" EntitySet="TableStock" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PortfolioModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TableCurrency">
+          <Key>
+            <PropertyRef Name="code" />
+          </Key>
+          <Property Name="code" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="TableStock" Relationship="Self.FK__TableStoc__curre__09FE775D" FromRole="TableCurrency" ToRole="TableStock" />
+        </EntityType>
+        <EntityType Name="TableDepartment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="note" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TableStock" Relationship="Self.FK__TableStoc__depar__090A5324" FromRole="TableDepartment" ToRole="TableStock" />
+        </EntityType>
+        <EntityType Name="TableDividends">
+          <Key>
+            <PropertyRef Name="ticker" />
+            <PropertyRef Name="dateCutoff" />
+          </Key>
+          <Property Name="ticker" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="dateCutoff" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="dateRegisterClosing" Type="DateTime" Precision="0" />
+          <Property Name="datePay" Type="DateTime" Precision="0" />
+          <Property Name="amount" Type="Double" />
+          <Property Name="profitability" Type="Double" />
+          <NavigationProperty Name="TableStock" Relationship="Self.FK__TableDivi__ticke__0DCF0841" FromRole="TableDividends" ToRole="TableStock" />
+        </EntityType>
+        <EntityType Name="TableExchange">
+          <Key>
+            <PropertyRef Name="code" />
+          </Key>
+          <Property Name="code" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="note" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TableStock" Relationship="Self.FK__TableStoc__excha__0AF29B96" FromRole="TableExchange" ToRole="TableStock" />
+        </EntityType>
+        <EntityType Name="TablePortfolio">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userId" Type="Int32" Nullable="false" />
+          <Property Name="ticker" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="count" Type="Int32" Nullable="false" />
+          <Property Name="dateBue" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="priceBue" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="dateSell" Type="DateTime" Precision="0" />
+          <Property Name="priceSell" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="TableStock" Relationship="Self.FK__TablePort__ticke__1387E197" FromRole="TablePortfolio" ToRole="TableStock" />
+          <NavigationProperty Name="TableUser" Relationship="Self.FK__TablePort__userI__1293BD5E" FromRole="TablePortfolio" ToRole="TableUser" />
+        </EntityType>
+        <EntityType Name="TableSector">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="note" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TableStock" Relationship="Self.FK__TableStoc__secto__08162EEB" FromRole="TableSector" ToRole="TableStock" />
+        </EntityType>
+        <EntityType Name="TableStock">
+          <Key>
+            <PropertyRef Name="ticker" />
+          </Key>
+          <Property Name="ticker" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="sectorId" Type="Int32" />
+          <Property Name="departmentId" Type="Int32" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="lot" Type="Int32" Nullable="false" />
+          <Property Name="currencyCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="exchangeCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="note" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="pe" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ps" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="debtEq" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="price" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="priceW52High" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="priceW52Low" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="TableCurrency" Relationship="Self.FK__TableStoc__curre__09FE775D" FromRole="TableStock" ToRole="TableCurrency" />
+          <NavigationProperty Name="TableDepartment" Relationship="Self.FK__TableStoc__depar__090A5324" FromRole="TableStock" ToRole="TableDepartment" />
+          <NavigationProperty Name="TableDividends" Relationship="Self.FK__TableDivi__ticke__0DCF0841" FromRole="TableStock" ToRole="TableDividends" />
+          <NavigationProperty Name="TableExchange" Relationship="Self.FK__TableStoc__excha__0AF29B96" FromRole="TableStock" ToRole="TableExchange" />
+          <NavigationProperty Name="TablePortfolio" Relationship="Self.FK__TablePort__ticke__1387E197" FromRole="TableStock" ToRole="TablePortfolio" />
+          <NavigationProperty Name="TableSector" Relationship="Self.FK__TableStoc__secto__08162EEB" FromRole="TableStock" ToRole="TableSector" />
+        </EntityType>
+        <EntityType Name="TableUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="login" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="nikname" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TablePortfolio" Relationship="Self.FK__TablePort__userI__1293BD5E" FromRole="TableUser" ToRole="TablePortfolio" />
+        </EntityType>
+        <Association Name="FK__TableStoc__curre__09FE775D">
+          <End Role="TableCurrency" Type="Self.TableCurrency" Multiplicity="1" />
+          <End Role="TableStock" Type="Self.TableStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableCurrency">
+              <PropertyRef Name="code" />
+            </Principal>
+            <Dependent Role="TableStock">
+              <PropertyRef Name="currencyCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TableStoc__depar__090A5324">
+          <End Role="TableDepartment" Type="Self.TableDepartment" Multiplicity="0..1" />
+          <End Role="TableStock" Type="Self.TableStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDepartment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TableStock">
+              <PropertyRef Name="departmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TableDivi__ticke__0DCF0841">
+          <End Role="TableStock" Type="Self.TableStock" Multiplicity="1" />
+          <End Role="TableDividends" Type="Self.TableDividends" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableStock">
+              <PropertyRef Name="ticker" />
+            </Principal>
+            <Dependent Role="TableDividends">
+              <PropertyRef Name="ticker" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TableStoc__excha__0AF29B96">
+          <End Role="TableExchange" Type="Self.TableExchange" Multiplicity="1" />
+          <End Role="TableStock" Type="Self.TableStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableExchange">
+              <PropertyRef Name="code" />
+            </Principal>
+            <Dependent Role="TableStock">
+              <PropertyRef Name="exchangeCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TablePort__ticke__1387E197">
+          <End Role="TableStock" Type="Self.TableStock" Multiplicity="1" />
+          <End Role="TablePortfolio" Type="Self.TablePortfolio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableStock">
+              <PropertyRef Name="ticker" />
+            </Principal>
+            <Dependent Role="TablePortfolio">
+              <PropertyRef Name="ticker" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TablePort__userI__1293BD5E">
+          <End Role="TableUser" Type="Self.TableUser" Multiplicity="1" />
+          <End Role="TablePortfolio" Type="Self.TablePortfolio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TablePortfolio">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TableStoc__secto__08162EEB">
+          <End Role="TableSector" Type="Self.TableSector" Multiplicity="0..1" />
+          <End Role="TableStock" Type="Self.TableStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableSector">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TableStock">
+              <PropertyRef Name="sectorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="masterEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TableCurrency" EntityType="Self.TableCurrency" />
+          <EntitySet Name="TableDepartment" EntityType="Self.TableDepartment" />
+          <EntitySet Name="TableDividends" EntityType="Self.TableDividends" />
+          <EntitySet Name="TableExchange" EntityType="Self.TableExchange" />
+          <EntitySet Name="TablePortfolio" EntityType="Self.TablePortfolio" />
+          <EntitySet Name="TableSector" EntityType="Self.TableSector" />
+          <EntitySet Name="TableStock" EntityType="Self.TableStock" />
+          <EntitySet Name="TableUser" EntityType="Self.TableUser" />
+          <AssociationSet Name="FK__TableStoc__curre__09FE775D" Association="Self.FK__TableStoc__curre__09FE775D">
+            <End Role="TableCurrency" EntitySet="TableCurrency" />
+            <End Role="TableStock" EntitySet="TableStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TableStoc__depar__090A5324" Association="Self.FK__TableStoc__depar__090A5324">
+            <End Role="TableDepartment" EntitySet="TableDepartment" />
+            <End Role="TableStock" EntitySet="TableStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TableDivi__ticke__0DCF0841" Association="Self.FK__TableDivi__ticke__0DCF0841">
+            <End Role="TableStock" EntitySet="TableStock" />
+            <End Role="TableDividends" EntitySet="TableDividends" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TableStoc__excha__0AF29B96" Association="Self.FK__TableStoc__excha__0AF29B96">
+            <End Role="TableExchange" EntitySet="TableExchange" />
+            <End Role="TableStock" EntitySet="TableStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TablePort__ticke__1387E197" Association="Self.FK__TablePort__ticke__1387E197">
+            <End Role="TableStock" EntitySet="TableStock" />
+            <End Role="TablePortfolio" EntitySet="TablePortfolio" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TablePort__userI__1293BD5E" Association="Self.FK__TablePort__userI__1293BD5E">
+            <End Role="TableUser" EntitySet="TableUser" />
+            <End Role="TablePortfolio" EntitySet="TablePortfolio" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TableStoc__secto__08162EEB" Association="Self.FK__TableStoc__secto__08162EEB">
+            <End Role="TableSector" EntitySet="TableSector" />
+            <End Role="TableStock" EntitySet="TableStock" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище PortfolioModelContainer" CdmEntityContainer="masterEntities">
+          <EntitySetMapping Name="TableCurrency">
+            <EntityTypeMapping TypeName="PortfolioModel.TableCurrency">
+              <MappingFragment StoreEntitySet="TableCurrency">
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TableDepartment">
+            <EntityTypeMapping TypeName="PortfolioModel.TableDepartment">
+              <MappingFragment StoreEntitySet="TableDepartment">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="note" ColumnName="note" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TableDividends">
+            <EntityTypeMapping TypeName="PortfolioModel.TableDividends">
+              <MappingFragment StoreEntitySet="TableDividends">
+                <ScalarProperty Name="ticker" ColumnName="ticker" />
+                <ScalarProperty Name="dateCutoff" ColumnName="dateCutoff" />
+                <ScalarProperty Name="dateRegisterClosing" ColumnName="dateRegisterClosing" />
+                <ScalarProperty Name="datePay" ColumnName="datePay" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="profitability" ColumnName="profitability" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TableExchange">
+            <EntityTypeMapping TypeName="PortfolioModel.TableExchange">
+              <MappingFragment StoreEntitySet="TableExchange">
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="note" ColumnName="note" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TablePortfolio">
+            <EntityTypeMapping TypeName="PortfolioModel.TablePortfolio">
+              <MappingFragment StoreEntitySet="TablePortfolio">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="ticker" ColumnName="ticker" />
+                <ScalarProperty Name="count" ColumnName="count" />
+                <ScalarProperty Name="dateBue" ColumnName="dateBue" />
+                <ScalarProperty Name="priceBue" ColumnName="priceBue" />
+                <ScalarProperty Name="dateSell" ColumnName="dateSell" />
+                <ScalarProperty Name="priceSell" ColumnName="priceSell" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TableSector">
+            <EntityTypeMapping TypeName="PortfolioModel.TableSector">
+              <MappingFragment StoreEntitySet="TableSector">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="note" ColumnName="note" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TableStock">
+            <EntityTypeMapping TypeName="PortfolioModel.TableStock">
+              <MappingFragment StoreEntitySet="TableStock">
+                <ScalarProperty Name="ticker" ColumnName="ticker" />
+                <ScalarProperty Name="sectorId" ColumnName="sectorId" />
+                <ScalarProperty Name="departmentId" ColumnName="departmentId" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="lot" ColumnName="lot" />
+                <ScalarProperty Name="currencyCode" ColumnName="currencyCode" />
+                <ScalarProperty Name="exchangeCode" ColumnName="exchangeCode" />
+                <ScalarProperty Name="note" ColumnName="note" />
+                <ScalarProperty Name="pe" ColumnName="pe" />
+                <ScalarProperty Name="ps" ColumnName="ps" />
+                <ScalarProperty Name="debtEq" ColumnName="debtEq" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="priceW52High" ColumnName="priceW52High" />
+                <ScalarProperty Name="priceW52Low" ColumnName="priceW52Low" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TableUser">
+            <EntityTypeMapping TypeName="PortfolioModel.TableUser">
+              <MappingFragment StoreEntitySet="TableUser">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="nikname" ColumnName="nikname" />
+                <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

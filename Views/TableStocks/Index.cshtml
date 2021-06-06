@@ -1,0 +1,243 @@
+﻿@model IEnumerable<WebApplication1.TableStock>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@Styles.Render("~/Content/Site.css")
+
+<h2>Список акций</h2>
+
+@if (User.Identity.IsAuthenticated && @WebApplication1.Models.GlobalVariables.IsAdmin)
+{
+    <p>
+        @Html.ActionLink("Создать новую запись", "Create")
+    </p>
+}
+
+@using (Html.BeginForm("Index", "TableStocks", FormMethod.Get))
+{
+<fieldset>
+    @Html.Label("ticker", "Тикер:")
+    <input name="ticker" type="text" value="">
+    @Html.Label("sector", "Сектор:")
+    <select name="sector">
+        <option value="0"></option>
+        <option value="1">Basic Materials</option>
+        <option value="2">Communication Services</option>
+        <option value="3">Consumer Cyclical</option>
+        <option value="4">Consumer Defensive</option>
+        <option value="5">Energy</option>
+        <option value="6">Financial</option>
+        <option value="7">Healthcare</option>
+        <option value="8">Real Estate</option>
+        <option value="9">Industrials</option>
+        <option value="10">Technology</option>
+        <option value="11">Utilities</option>
+    </select>
+    @Html.Label("department", "Отрасль:")
+    <select name="department">
+        <option value="0"></option>
+        <option value="1">Advertising Agencies</option>
+        <option value="2">Aerospace & Defense</option>
+        <option value="3">Agricultural Inputs</option>
+        <option value="4">Airlines</option>
+        <option value="5">Aluminum</option>
+        <option value="6">Apparel Manufacturing</option>
+        <option value="7">Apparel Retail</option>
+        <option value="8">Asset Management</option>
+        <option value="9">Auto Parts</option>
+        <option value="10">Banks - Diversified</option>
+        <option value="11">Banks - Regional</option>
+        <option value="12">Beverages - Brewers</option>
+        <option value="13">Beverages - Non - Alcoholic</option>
+        <option value="14">Biotechnology</option>
+        <option value="15">Broadcasting</option>
+        <option value="16">Building Products &Equipment</option>
+        <option value="17">Business Equipment &Supplies</option>
+        <option value="18">Capital Markets</option>
+        <option value="19">Chemicals</option>
+        <option value="20">Communication Equipment</option>
+        <option value="21">Computer Hardware</option>
+        <option value="22">Confectioners</option>
+        <option value="23">Consulting Services</option>
+        <option value="24">Consumer Electronics</option>
+        <option value="25">Credit Services</option>
+        <option value="26">Department Stores</option>
+        <option value="27">Diagnostics & Research</option>
+        <option value="28">Discount Stores</option>
+        <option value="29">Drug Manufacturers - General</option>
+        <option value="30">Drug Manufacturers -Specialty & Generic</option>
+        <option value="31">Education & Training Services</option>
+        <option value="32">Electronic Components</option>
+        <option value="33">Electronic Gaming &Multimedia</option>
+        <option value="34">Engineering & Construction</option>
+        <option value="35">Entertainment</option>
+        <option value="36">Farm & Heavy Construction Machinery</option>
+        <option value="37">Farm Products</option>
+        <option value="38">Financial Conglomerates</option>
+        <option value="39">Financial Data & Stock Exchanges</option>
+        <option value="40">Food Distribution</option>
+        <option value="41">Footwear & Accessories</option>
+        <option value="42">Furnishings, Fixtures & Appliances</option>
+        <option value="43">Gold</option>
+        <option value="44">Grocery Stores</option>
+        <option value="45">Health Information Services</option>
+        <option value="46">Healthcare Plans</option>
+        <option value="47">Home Improvement Retail</option>
+        <option value="48">Household & Personal Products</option>
+        <option value="49">Industrial Distribution</option>
+        <option value="50">Information Technology Services</option>
+        <option value="51">Insurance - Diversified</option>
+        <option value="52">Insurance - Life</option>
+        <option value="53">Insurance - Property & Casualty</option>
+        <option value="54">Insurance - Specialty</option>
+        <option value="55">Insurance Brokers</option>
+        <option value="56">Integrated Freight &Logistics</option>
+        <option value="57">Internet Content &Information</option>
+        <option value="58">Internet Retail</option>
+        <option value="59">Lodging</option>
+        <option value="60">Medical Care Facilities</option>
+        <option value="61">Medical Devices</option>
+        <option value="62">Medical Distribution</option>
+        <option value="63">Medical Instruments & Supplies</option>
+        <option value="64">Metal Fabrication</option>
+        <option value="65">Oil & Gas E & P</option>
+        <option value="66">Oil & Gas Equipment & Services</option>
+        <option value="67">Oil & Gas Integrated</option>
+        <option value="68">Oil & Gas Midstream</option>
+        <option value="69">Oil & Gas Refining & Marketing</option>
+        <option value="70">Packaged Foods</option>
+        <option value="71">Packaging & Containers</option>
+        <option value="72">Paper & Paper Products</option>
+        <option value="73">Personal Services</option>
+        <option value="74">Pharmaceutical Retailers</option>
+        <option value="75">Railroads</option>
+        <option value="76">Real Estate Services</option>
+        <option value="77">REIT - Diversified</option>
+        <option value="78">REIT - Healthcare Facilities</option>
+        <option value="79">REIT - Hotel & Motel</option>
+        <option value="80">REIT - Industrial</option>
+        <option value="81">REIT - Office</option>
+        <option value="82">REIT - Residential</option>
+        <option value="83">REIT - Retail</option>
+        <option value="84">REIT - Specialty</option>
+        <option value="85">Rental & Leasing Services</option>
+        <option value="86">Residential Construction</option>
+        <option value="87">Restaurants</option>
+        <option value="88">Scientific & Technical Instruments</option>
+        <option value="89">Semiconductor Equipment & Materials</option>
+        <option value="90">Semiconductors</option>
+        <option value="91">Software - Application</option>
+        <option value="92">Software - Infrastructure</option>
+        <option value="93">Solar</option>
+        <option value="94">Specialty Business Services</option>
+        <option value="95">Specialty Chemicals</option>
+        <option value="96">Specialty Industrial Machinery</option>
+        <option value="97">Specialty Retail</option>
+        <option value="98">Staffing & Employment Services</option>
+        <option value="99">Steel</option>
+        <option value="100">Telecom Services</option>
+        <option value="101">Tobacco</option>
+        <option value="102">Travel Services</option>
+        <option value="103">Utilities - Diversified</option>
+        <option value="104">Utilities - Regulated Electric</option>
+        <option value="105">Waste Management</option>
+    </select>
+    <input type="submit" value="Поиск" />
+</fieldset>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ticker)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lot)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pe)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.debtEq)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TableSector.name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TableDepartment.name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TableExchange.name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TableCurrency.name)
+        </th>
+        <th colspan="4"></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ticker)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.lot)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.pe)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.debtEq)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TableSector.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TableDepartment.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TableExchange.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TableCurrency.name)
+            </td>
+            <td>
+                @Html.ActionLink("Подробнее", "Details", new { id = item.ticker })
+            </td>
+            <td>
+                @if (User.Identity.IsAuthenticated && @WebApplication1.Models.GlobalVariables.IsAdmin)
+                {
+                    @Html.ActionLink("Редактировать", "Edit", new { id = item.ticker })
+                }
+            </td>
+            <td>
+                @if (User.Identity.IsAuthenticated && @WebApplication1.Models.GlobalVariables.IsAdmin)
+                {
+                    @Html.ActionLink("Удалить", "Delete", new { id = item.ticker })
+                }
+            </td>
+            <td>
+                @if (User.Identity.IsAuthenticated && @WebApplication1.Models.GlobalVariables.IsAdmin)
+                {
+                    @Html.ActionLink("Обновить дивиденды", "UpdDivs", new { id = item.ticker })
+                }
+            </td>
+        </tr>
+    }
+
+</table>

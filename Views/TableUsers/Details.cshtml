@@ -1,0 +1,48 @@
+﻿@model WebApplication1.TableUser
+
+@{
+    ViewBag.Title = "Details";
+}
+
+@Styles.Render("~/Content/Site.css")
+
+<h2>Справочник 'Пользователей'. Подробнее</h2>
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.login)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.login)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.password)
+        </dt>
+        <dd>
+            ******
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.nikname)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.nikname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.email)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Вернуться к списку", "Index") |
+    @if (User.Identity.IsAuthenticated && @WebApplication1.Models.GlobalVariables.IsAdmin)
+    {
+        @Html.ActionLink("Редактировать", "Edit", new { id = Model.Id })
+    }
+</p>
